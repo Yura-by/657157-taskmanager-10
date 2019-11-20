@@ -1,3 +1,5 @@
+'use strict';
+
 const TASK_COUNT = 3;
 
 const createSiteMenuTemplate = () => {
@@ -117,7 +119,7 @@ const createBoardTemplate = () => {
 
       <div class="board__tasks"></div>
     </section>`
-    );
+  );
 };
 
 const createTaskTemplate = () => {
@@ -412,7 +414,7 @@ const createLoadMoreButtonTemplate = () => {
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
-}
+};
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
@@ -427,7 +429,7 @@ render(taskListElement, createTaskEditTemplate(), `beforeend`);
 new Array(TASK_COUNT)
   .fill(``)
   .forEach(
-    () => render(taskListElement, createTaskTemplate(), `beforeend`)
+      () => render(taskListElement, createTaskTemplate(), `beforeend`)
   );
 
 const boardElement = siteMainElement.querySelector(`.board`);
