@@ -9,9 +9,7 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'publick'),
-    publickPath: 'http://localhost:8080/',
-    compress: true,
+    contentBase: path.join(__dirname, 'public'),
     watchContentBase: true
   }
 };
