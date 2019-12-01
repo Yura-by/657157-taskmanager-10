@@ -42,10 +42,10 @@ const filterCounter = {
 };
 
 const generateFilters = (tasks) => {
-  return filterNames.map((it) => {
+  return filterNames.map((name) => {
     return {
-      name: it,
-      count: filterCounter[it](tasks)
+      name,
+      count: filterCounter[name](tasks)
     };
   });
 };
