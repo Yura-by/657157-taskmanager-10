@@ -1,5 +1,5 @@
-import {Colors, Days, MonthNames} from '../const.js';
-import {formatTime} from '../utils.js';
+import {COLORS, DAYS, MONTH_NAMES} from '../const.js';
+import {createElement, formatTime} from '../utils.js';
 
 const createColorsMarkup = (colors, currentColor) => {
   return colors
@@ -7,14 +7,14 @@ const createColorsMarkup = (colors, currentColor) => {
       return (
         `<input
           type="radio"
-          id="color--${color}"
+          id="color-${color}-4"
           class="card__color-input card__color-input--${color} visually-hidden"
           name="color"
           value="${color}"
           ${currentColor === color ? `checked` : ``}
         />
         <label
-          for="color--${color}"
+          for="color-${color}-4"
           class="card__color card__color--${color}"
           >${color}</label
         >`
@@ -70,13 +70,13 @@ const createHashtags = (tags) => {
     .join(`\n`);
 };
 
-export const createTaskEditTemplate = (task) => {
+const createTaskEditTemplate = (task) => {
   const {description, tags, dueDate, color, repeatingDays} = task;
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
   const isDateShowing = !!dueDate;
 
-  const date = isDateShowing ? `${dueDate.getDate()} ${MonthNames[dueDate.getMonth()]}` : ``;
+  const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
 
   const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
@@ -84,8 +84,8 @@ export const createTaskEditTemplate = (task) => {
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
   const tagsMarkup = createHashtags(tags);
-  const colorsMarkup = createColorsMarkup(Colors, color);
-  const repeatingDaysMarkup = createRepeatingDaysMarkup(Days, repeatingDays);
+  const colorsMarkup = createColorsMarkup(COLORS, color);
+  const repeatingDaysMarkup = createRepeatingDaysMarkup(DAYS, repeatingDays);
 
   return (
     `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
@@ -114,18 +114,19 @@ export const createTaskEditTemplate = (task) => {
                     date: <span class="card__date-status">${isDateShowing ? `yes` : `no`}</span>
                   </button>
 
-    ${isDateShowing ? `
-      <fieldset class="card__date-deadline">
-        <label class="card__input-deadline-wrap">
-          <input
-            class="card__date"
-            type="text"
-            placeholder=""
-            name="date"
-            value="${date} ${time}"
-          />
-        </label>
-      </fieldset>`
+                  ${
+    isDateShowing ?
+      `<fieldset class="card__date-deadline">
+                        <label class="card__input-deadline-wrap">
+                          <input
+                            class="card__date"
+                            type="text"
+                            placeholder=""
+                            name="date"
+                            value="${date} ${time}"
+                          />
+                        </label>
+                      </fieldset>`
       : ``
     }
 
@@ -133,12 +134,13 @@ export const createTaskEditTemplate = (task) => {
                     repeat:<span class="card__repeat-status">${isRepeatingTask ? `yes` : `no`}</span>
                   </button>
 
-    ${isRepeatingTask ?
+                  ${
+    isRepeatingTask ?
       `<fieldset class="card__repeat-days">
-        <div class="card__repeat-days-inner">
-          ${repeatingDaysMarkup}
-        </div>
-      </fieldset>`
+                      <div class="card__repeat-days-inner">
+                        ${repeatingDaysMarkup}
+                      </div>
+                    </fieldset>`
       : ``
     }
                 </div>
@@ -176,3 +178,26 @@ export const createTaskEditTemplate = (task) => {
       </article>`
   );
 };
+
+export default class TaskEdit {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTaskEditTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
