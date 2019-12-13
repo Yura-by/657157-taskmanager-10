@@ -211,6 +211,9 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+    if (this._handlerSubmit) {
+      this.setSubmitHandler(this._handlerSubmit);
+    }
   }
 
   reset() {
@@ -225,7 +228,10 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   setSubmitHandler(handler) {
     this.getElement().querySelector(`form`)
-      .addEventListener(`submit`, handler);
+      .addEventListener(`submit`, () => {
+        this._handlerSubmit = handler;
+        this._handlerSubmit();
+      });
   }
 
   _subscribeOnEvents() {
