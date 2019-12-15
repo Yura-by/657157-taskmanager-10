@@ -88,7 +88,7 @@ export default class BoardController {
   }
 
   _onDataChange(taskController, oldData, newData) {
-    const index = this._tasks.findIndex((it) => it === oldData);
+    const index = this._tasks.findIndex((task) => task === oldData);
 
     if (index === -1) {
       return;
@@ -100,7 +100,7 @@ export default class BoardController {
   }
 
   _onViewChange() {
-    this._showedTaskControllers.forEach((it) => it.setDefaultView());
+    this._showedTaskControllers.forEach((taskController) => taskController.setDefaultView());
   }
 
   _onSortTypeChange(sortType) {
