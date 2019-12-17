@@ -40,9 +40,6 @@ export default class BoardController {
 
   render() {
     const tasks = this._tasksModel.getTasks();
-    this._filterController = new FilterController(this._container);
-
-    this._filterController.render(tasks);
 
     const container = this._container.getElement();
     const isAllTasksArchived = tasks.every((task) => task.isArchive);
