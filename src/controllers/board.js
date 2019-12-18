@@ -128,7 +128,7 @@ export default class BoardController {
   }
 
   _onViewChange() {
-    this._showedTaskControllers.forEach((it) => it.setDefaultView());
+    this._showedTaskControllers.forEach((controller) => controller.setDefaultView());
   }
 
   _onSortTypeChange(sortType) {
@@ -137,10 +137,10 @@ export default class BoardController {
 
     switch (sortType) {
       case SortType.DATE_UP:
-        sortedTasks = tasks.slice().sort((a, b) => a.dueDate - b.dueDate);
+        sortedTasks = tasks.slice().sort((left, right) => left.dueDate - right.dueDate);
         break;
       case SortType.DATE_DOWN:
-        sortedTasks = tasks.slice().sort((a, b) => b.dueDate - a.dueDate);
+        sortedTasks = tasks.slice().sort((left, right) => right.dueDate - left.dueDate);
         break;
       case SortType.DEFAULT:
         sortedTasks = tasks.slice(0, this._showingTasksCount);

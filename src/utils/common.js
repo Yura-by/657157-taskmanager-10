@@ -18,7 +18,7 @@ export const isOverdueDate = (dueDate, date) => {
 };
 
 export const isOneDay = (dateA, dateB) => {
-  const a = moment(dateA);
-  const b = moment(dateB);
-  return a.diff(b, `days`) === 0 && dateA.getDate() === dateB.getDate();
+  const momentDateA = moment(dateA);
+  const momentDateB = moment(dateB);
+  return momentDateA.diff(momentDateB, `days`) === 0 && dateA.getDate() === dateB.getDate();
 };

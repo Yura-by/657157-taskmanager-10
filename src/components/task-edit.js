@@ -191,9 +191,9 @@ const createTaskEditTemplate = (task, options = {}) => {
 };
 
 const parseFormData = (formData) => {
-  const repeatingDays = DAYS.reduce((acc, day) => {
-    acc[day] = false;
-    return acc;
+  const repeatingDays = DAYS.reduce((accumulator, day) => {
+    accumulator[day] = false;
+    return accumulator;
   }, {});
   const date = formData.get(`date`);
 
@@ -202,9 +202,9 @@ const parseFormData = (formData) => {
     color: formData.get(`color`),
     tags: formData.getAll(`hashtag`),
     dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
-      acc[it] = true;
-      return acc;
+    repeatingDays: formData.getAll(`repeat`).reduce((accumulator, property) => {
+      accumulator[property] = true;
+      return accumulator;
     }, repeatingDays),
   };
 };

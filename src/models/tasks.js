@@ -28,7 +28,7 @@ export default class Tasks {
     this._callHandlers(this._filterChangeHandlers);
   }
   removeTask(id) {
-    const index = this._tasks.findIndex((it) => it.id === id);
+    const index = this._tasks.findIndex((task) => task.id === id);
 
     if (index === -1) {
       return false;
@@ -42,7 +42,7 @@ export default class Tasks {
   }
 
   updateTask(id, task) {
-    const index = this._tasks.findIndex((it) => it.id === id);
+    const index = this._tasks.findIndex((taskItem) => taskItem.id === id);
 
     if (index === -1) {
       return false;
