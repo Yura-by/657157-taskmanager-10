@@ -10,9 +10,10 @@ export default class FilterController {
 
     this._activeFilterType = FilterType.ALL;
     this._filterComponent = null;
-    this._onDataChange = this._onDataChange.bind(this)
 
+    this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
+
     this._tasksModel.setDataChangeHandler(this._onDataChange);
   }
 

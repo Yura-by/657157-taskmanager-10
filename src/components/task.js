@@ -36,14 +36,15 @@ const createTaskTemplate = (task) => {
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
+  const description = he.encode(notSanitizedDescription);
 
   const hashtags = createHashtagsMarkup(Array.from(tags));
-  const description = he.encode(notSanitizedDescription);
-  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
-  const deadlineClass = isExpired ? `card--deadline` : ``;
   const editButton = createButtonMarkup(`edit`, true);
   const archiveButton = createButtonMarkup(`archive`, task.isArchive);
   const favoritesButton = createButtonMarkup(`favorites`, task.isFavorite);
+
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
 
   return (
     `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
@@ -54,17 +55,14 @@ const createTaskTemplate = (task) => {
             ${archiveButton}
             ${favoritesButton}
           </div>
-
           <div class="card__color-bar">
             <svg class="card__color-bar-wave" width="100%" height="10">
               <use xlink:href="#wave"></use>
             </svg>
           </div>
-
           <div class="card__textarea-wrap">
             <p class="card__text">${description}</p>
           </div>
-
           <div class="card__settings">
             <div class="card__details">
               <div class="card__dates">
@@ -75,7 +73,6 @@ const createTaskTemplate = (task) => {
                   </p>
                 </div>
               </div>
-
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
                   ${hashtags}

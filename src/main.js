@@ -18,7 +18,6 @@ siteMenuComponent.getElement().querySelector(`.control__label--new-task`)
   });
 
 render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
-
 const tasks = generateTasks(TASK_COUNT);
 const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
