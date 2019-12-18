@@ -10,8 +10,14 @@ const TASK_COUNT = 22;
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
+const siteMenuComponent = new SiteMenuComponent();
 
-render(siteHeaderElement, new SiteMenuComponent(), RenderPosition.BEFOREEND);
+siteMenuComponent.getElement().querySelector(`.control__label--new-task`)
+  .addEventListener(`click`, () => {
+    boardController.createTask();
+  });
+
+render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
 
 const tasks = generateTasks(TASK_COUNT);
 const tasksModel = new TasksModel();
