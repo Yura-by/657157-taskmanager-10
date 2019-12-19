@@ -1,5 +1,7 @@
 import AbstractComponent from './abstract-component.js';
 import {formatTime, formatDate} from '../utils/common.js';
+import {isOverdueDate} from '../utils/common.js';
+import he from 'he';
 
 const createHashtagsMarkup = (hashtags) => {
   return hashtags
@@ -27,20 +29,22 @@ const createButtonMarkup = (name, isActive) => {
 };
 
 const createTaskTemplate = (task) => {
-  const {description, tags, dueDate, color, repeatingDays} = task;
+  const {description: notSanitizedDescription, tags, dueDate, color, repeatingDays} = task;
 
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
   const isDateShowing = !!dueDate;
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
+  const description = he.encode(notSanitizedDescription);
 
   const hashtags = createHashtagsMarkup(Array.from(tags));
-  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
-  const deadlineClass = isExpired ? `card--deadline` : ``;
   const editButton = createButtonMarkup(`edit`, true);
   const archiveButton = createButtonMarkup(`archive`, task.isArchive);
   const favoritesButton = createButtonMarkup(`favorites`, task.isFavorite);
+
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
 
   return (
     `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
@@ -51,17 +55,14 @@ const createTaskTemplate = (task) => {
             ${archiveButton}
             ${favoritesButton}
           </div>
-
           <div class="card__color-bar">
             <svg class="card__color-bar-wave" width="100%" height="10">
               <use xlink:href="#wave"></use>
             </svg>
           </div>
-
           <div class="card__textarea-wrap">
             <p class="card__text">${description}</p>
           </div>
-
           <div class="card__settings">
             <div class="card__details">
               <div class="card__dates">
@@ -72,7 +73,6 @@ const createTaskTemplate = (task) => {
                   </p>
                 </div>
               </div>
-
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
                   ${hashtags}
