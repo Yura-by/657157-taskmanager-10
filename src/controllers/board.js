@@ -58,6 +58,14 @@ export default class BoardController {
     this._renderLoadMoreButton();
   }
 
+  hide() {
+    this._container.hide();
+  }
+
+  show() {
+    this._container.show();
+  }
+
   createTask() {
     if (this._creatingTask) {
       return;
