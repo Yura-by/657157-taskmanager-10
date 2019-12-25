@@ -72,7 +72,7 @@ const renderColorsChart = (colorsCtx, tasks) => {
     .map((task) => task.color)
     .filter(getUniqItems);
 
-    return new Chart(colorsCtx, {
+  return new Chart(colorsCtx, {
     plugins: [ChartDataLabels],
     type: `pie`,
     data: {
@@ -328,7 +328,7 @@ export default class Statistics extends AbstractSmartComponent {
   recoveryListeners() {}
 
   getTemplate() {
-    return createStatisticsTemplate({tasks: this._tasks.getTasks(), dateFrom: this._dateFrom, dateTo: this._dateTo});;
+    return createStatisticsTemplate({tasks: this._tasks.getTasks(), dateFrom: this._dateFrom, dateTo: this._dateTo});
   }
 
   rerender(tasks, dateFrom, dateTo) {
