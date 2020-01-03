@@ -21,14 +21,16 @@ export default class Tasks {
 
   setTasks(tasks) {
     this._tasks = Array.from(tasks);
+    this._callHandlers(this._dataChangeHandlers);
   }
 
   setFilter(filterType) {
     this._activeFilterType = filterType;
     this._callHandlers(this._filterChangeHandlers);
   }
+
   removeTask(id) {
-    const index = this._tasks.findIndex((task) => task.id === id);
+    const index = this._tasks.findIndex((it) => it.id === id);
 
     if (index === -1) {
       return false;
@@ -42,7 +44,7 @@ export default class Tasks {
   }
 
   updateTask(id, task) {
-    const index = this._tasks.findIndex((taskItem) => taskItem.id === id);
+    const index = this._tasks.findIndex((it) => it.id === id);
 
     if (index === -1) {
       return false;

@@ -1,10 +1,10 @@
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {COLORS, DAYS} from '../const.js';
 import {formatTime, formatDate, isRepeating, isOverdueDate} from '../utils/common.js';
-import he from 'he';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/themes/light.css';
+import he from 'he';
 
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 140;
@@ -15,7 +15,6 @@ const isAllowableDescriptionLength = (description) => {
   return length >= MIN_DESCRIPTION_LENGTH &&
     length <= MAX_DESCRIPTION_LENGTH;
 };
-
 
 const createColorsMarkup = (colors, currentColor) => {
   return colors
@@ -116,6 +115,7 @@ const createTaskEditTemplate = (task, options = {}) => {
                 <use xlink:href="#wave"></use>
               </svg>
             </div>
+
             <div class="card__textarea-wrap">
               <label>
                 <textarea
@@ -125,12 +125,14 @@ const createTaskEditTemplate = (task, options = {}) => {
                 >${description}</textarea>
               </label>
             </div>
+
             <div class="card__settings">
               <div class="card__details">
                 <div class="card__dates">
                   <button class="card__date-deadline-toggle" type="button">
                     date: <span class="card__date-status">${isDateShowing ? `yes` : `no`}</span>
                   </button>
+
                   ${
     isDateShowing ?
       `<fieldset class="card__date-deadline">
@@ -146,9 +148,11 @@ const createTaskEditTemplate = (task, options = {}) => {
                       </fieldset>`
       : ``
     }
+
                   <button class="card__repeat-toggle" type="button">
                     repeat:<span class="card__repeat-status">${isRepeatingTask ? `yes` : `no`}</span>
                   </button>
+
                   ${
     isRepeatingTask ?
       `<fieldset class="card__repeat-days">
@@ -159,10 +163,12 @@ const createTaskEditTemplate = (task, options = {}) => {
       : ``
     }
                 </div>
+
                 <div class="card__hashtag">
                   <div class="card__hashtag-list">
                     ${tagsMarkup}
                   </div>
+
                   <label>
                     <input
                       type="text"
@@ -173,6 +179,7 @@ const createTaskEditTemplate = (task, options = {}) => {
                   </label>
                 </div>
               </div>
+
               <div class="card__colors-inner">
                 <h3 class="card__colors-title">Color</h3>
                 <div class="card__colors-wrap">
@@ -180,6 +187,7 @@ const createTaskEditTemplate = (task, options = {}) => {
                 </div>
               </div>
             </div>
+
             <div class="card__status-btns">
               <button class="card__save" type="submit" ${isBlockSaveButton ? `disabled` : ``}>save</button>
               <button class="card__delete" type="button">delete</button>
@@ -190,24 +198,6 @@ const createTaskEditTemplate = (task, options = {}) => {
   );
 };
 
-const parseFormData = (formData) => {
-  const repeatingDays = DAYS.reduce((accumulator, day) => {
-    accumulator[day] = false;
-    return accumulator;
-  }, {});
-  const date = formData.get(`date`);
-
-  return {
-    description: formData.get(`text`),
-    color: formData.get(`color`),
-    tags: formData.getAll(`hashtag`),
-    dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce((accumulator, property) => {
-      accumulator[property] = true;
-      return accumulator;
-    }, repeatingDays),
-  };
-};
 
 export default class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
@@ -269,9 +259,7 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   getData() {
     const form = this.getElement().querySelector(`.card__form`);
-    const formData = new FormData(form);
-
-    return parseFormData(formData);
+    return new FormData(form);
   }
 
   setSubmitHandler(handler) {
@@ -299,7 +287,7 @@ export default class TaskEdit extends AbstractSmartComponent {
       this._flatpickr = flatpickr(dateElement, {
         altInput: true,
         allowInput: true,
-        defaultDate: this._task.dueDate || new Date()
+        defaultDate: this._task.dueDate,
       });
     }
   }
