@@ -7,7 +7,7 @@ import StatisticsComponent from './components/statistics.js';
 import TasksModel from './models/tasks.js';
 import {render, RenderPosition} from './utils/render.js';
 
-const AUTHORIZATION = `Basic dXNlckBwYJH:LKHkh`;
+const AUTHORIZATION = `Basic dXNlckBwYXNzd2safsafvvGGGGGDSF`;
 const END_POINT = `https://htmlacademy-es-10.appspot.com/task-manager`;
 
 const dateTo = new Date();
@@ -26,15 +26,13 @@ const siteMenuComponent = new SiteMenuComponent();
 const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
 
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent, tasksModel);
+const boardController = new BoardController(boardComponent, tasksModel, api);
 const filterController = new FilterController(siteMainElement, tasksModel);
 
 render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
 filterController.render();
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
-
 render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
-
 statisticsComponent.hide();
 
 siteMenuComponent.setOnChange((menuItem) => {

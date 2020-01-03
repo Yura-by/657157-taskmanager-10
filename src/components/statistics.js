@@ -1,11 +1,8 @@
 import AbstractSmartComponent from './abstract-smart-component.js';
+import {isOneDay} from '../utils/common.js';
+import moment from 'moment';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import moment from 'moment';
-import {isOneDay} from '../utils/common.js';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
-import 'flatpickr/dist/themes/light.css';
 
 const Color = {
   BLACK: `black`,
@@ -277,9 +274,11 @@ const createStatisticsTemplate = ({tasks, dateFrom, dateTo}) => {
       <div class="statistic__line">
         <div class="statistic__period">
           <h2 class="statistic__period-title">Task Activity DIAGRAM</h2>
+
           <div class="statistic-input-wrap">
             <input class="statistic__period-input" type="text" placeholder="${placeholder}">
           </div>
+
           <p class="statistic__period-result">
             In total for the specified period
             <span class="statistic__task-found">${tasksCount}</span> tasks were fulfilled.
@@ -289,6 +288,7 @@ const createStatisticsTemplate = ({tasks, dateFrom, dateTo}) => {
           <canvas class="statistic__days" width="550" height="150"></canvas>
         </div>
       </div>
+
       <div class="statistic__circle">
         <div class="statistic__tags-wrap">
           <canvas class="statistic__tags" width="400" height="300"></canvas>
@@ -302,7 +302,6 @@ const createStatisticsTemplate = ({tasks, dateFrom, dateTo}) => {
 };
 
 export default class Statistics extends AbstractSmartComponent {
-
   constructor({tasks, dateFrom, dateTo}) {
     super();
 
@@ -319,6 +318,10 @@ export default class Statistics extends AbstractSmartComponent {
     this._renderCharts();
   }
 
+  getTemplate() {
+    return createStatisticsTemplate({tasks: this._tasks.getTasks(), dateFrom: this._dateFrom, dateTo: this._dateTo});
+  }
+
   show() {
     super.show();
 
@@ -326,10 +329,6 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
   recoveryListeners() {}
-
-  getTemplate() {
-    return createStatisticsTemplate({tasks: this._tasks.getTasks(), dateFrom: this._dateFrom, dateTo: this._dateTo});
-  }
 
   rerender(tasks, dateFrom, dateTo) {
     this._tasks = tasks;
@@ -379,7 +378,7 @@ export default class Statistics extends AbstractSmartComponent {
       this._flatpickr.destroy();
     }
 
-    this._flatpickr = flatpickr(element, {
+    this._flatpickr = window.flatpickr(element, {
       altInput: true,
       allowInput: true,
       defaultDate: [this._dateFrom, this._dateTo],
@@ -392,4 +391,3 @@ export default class Statistics extends AbstractSmartComponent {
     });
   }
 }
-

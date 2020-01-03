@@ -6,7 +6,6 @@ const createTasksTemplate = () => {
   );
 };
 
-
 export default class Tasks extends AbstractComponent {
   getTemplate() {
     return createTasksTemplate();

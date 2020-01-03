@@ -15,10 +15,27 @@ const checkStatus = (response) => {
   }
 };
 
-export default class Api {
+export default class API {
   constructor(endPoint, authorization) {
     this._endPoint = endPoint;
     this._authorization = authorization;
+  }
+
+  getTasks() {
+    return this._load({url: `tasks`})
+      .then((response) => response.json())
+      .then(Task.parseTasks);
+  }
+
+  updateTask(id, data) {
+    return this._load({
+      url: `tasks/${id}`,
+      method: Method.PUT,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({'Content-Type': `application/json`})
+    })
+      .then((response) => response.json())
+      .then(Task.parseTask);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
@@ -29,20 +46,5 @@ export default class Api {
       .catch((err) => {
         throw err;
       });
-  }
-
-  getTasks() {
-    return this._load({url: `tasks`})
-      .then((response) => response.json())
-      .then(Task.parseTasks);
-  }
-
-  createTask(task) {
-  }
-
-  updateTask(id, data) {
-  }
-
-  deleteTask(id) {
   }
 }
