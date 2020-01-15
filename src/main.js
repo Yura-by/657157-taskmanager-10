@@ -10,6 +10,10 @@ import {render, RenderPosition} from './utils/render.js';
 const AUTHORIZATION = `Basic dXNlckBwYXNzd2safsafvvGGGGGDSF`;
 const END_POINT = `https://htmlacademy-es-10.appspot.com/task-manager`;
 
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`);
+});
+
 const dateTo = new Date();
 const dateFrom = (() => {
   const d = new Date(dateTo);
