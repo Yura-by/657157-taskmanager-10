@@ -13,10 +13,10 @@ export default class Provider {
   getTasks() {
     if (this._isOnLine()) {
       return this._api.getTasks().then(
-        (tasks) => {
-          tasks.forEach((task) => this._store.setItem(task.id, task.toRAW()));
-          return tasks;
-        }
+          (tasks) => {
+            tasks.forEach((task) => this._store.setItem(task.id, task.toRAW()));
+            return tasks;
+          }
       );
     }
 
@@ -28,10 +28,10 @@ export default class Provider {
   createTask(task) {
     if (this._isOnLine()) {
       return this._api.createTask(task).then(
-        (newTask) => {
-          this._store.setItem(newTask.id, newTask.toRAW());
-          return newTask;
-        }
+          (newTask) => {
+            this._store.setItem(newTask.id, newTask.toRAW());
+            return newTask;
+          }
       );
     }
     const fakeNewTaskId = String(new Date() + Math.random());
@@ -45,10 +45,10 @@ export default class Provider {
   updateTask(id, task) {
     if (this._isOnLine()) {
       return this._api.updateTask(id, task).then(
-        (newTask) => {
-          this._store.setItem(newTask.id, newTask.toRAW());
-          return newTask;
-        }
+          (newTask) => {
+            this._store.setItem(newTask.id, newTask.toRAW());
+            return newTask;
+          }
       );
     }
     const fakeUpdatedTask = Task.parseTask(Object.assign({}, task.toRAW(), {id}));
@@ -61,9 +61,9 @@ export default class Provider {
   deleteTask(id) {
     if (this._isOnLine()) {
       return this._api.deleteTask(id).then(
-        () => {
-          this._store.removeItem(id);
-        }
+          () => {
+            this._store.removeItem(id);
+          }
       );
     }
     this._isSynchronized = false;
@@ -99,7 +99,7 @@ export default class Provider {
     return this._isSynchronized;
   }
 
-   _isOnLine() {
+  _isOnLine() {
     return window.navigator.onLine;
   }
 }
